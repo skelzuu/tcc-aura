@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Persistance - Login</title>
+    <title>Persistance - Criar conta</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -16,26 +16,32 @@
 
         <div class="login-box">
 
-            <!-- Espaço para a logo -->
             <div class="logo-area">
-                <!-- Coloque sua logo aqui depois -->
-                <!-- <img src="logo.png" alt="MyRoutine"> -->
-
                 <div class="logo-placeholder">
-                    .
+                    PR
                 </div>
             </div>
 
             <div class="login-header">
-                <h1>Persistance</h1>
+                <h1>Crie sua conta</h1>
 
-                <p>
-                    Organize sua rotina.<br>
-                    Alcance seus objetivos.
+                <p class="login-subtitle">
+                    Comece sua jornada no Persistance.
                 </p>
             </div>
 
-            <form id="loginForm">
+            <form id="registerForm">
+
+                <div class="input-group">
+                    <label for="name">Nome</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Digite seu nome"
+                        required
+                    >
+                </div>
 
                 <div class="input-group">
                     <label for="email">E-mail</label>
@@ -54,22 +60,24 @@
                     <input
                         type="password"
                         id="password"
-                        placeholder="Digite sua senha"
+                        placeholder="Crie uma senha"
                         required
                     >
                 </div>
 
-                <div class="form-options">
-                    <label class="remember">
-                        <input type="checkbox">
-                        <span>Lembrar de mim</span>
-                    </label>
+                <div class="input-group">
+                    <label for="confirm-password">Confirmar senha</label>
 
-                    <a href="#">Esqueci a senha</a>
+                    <input
+                        type="password"
+                        id="confirm-password"
+                        placeholder="Digite a senha novamente"
+                        required
+                    >
                 </div>
 
                 <button type="submit">
-                    Entrar
+                    Criar conta
                 </button>
 
             </form>
@@ -79,19 +87,19 @@
             </div>
 
             <p class="register-text">
-                Ainda não possui uma conta?
-                <a href="cadastro.html">Criar conta</a>
+                Já possui uma conta?
+                <a href="index.html">Entrar</a>
+            </p>
+
+            <p class="login-footer">
+                Persistance • Organize. Evolua. Conquiste.
             </p>
 
         </div>
 
-        <p class="login-footer">
-            Persistance • Organize. Evolua. Conquiste.
-        </p>
-
     </main>
 
-    <script src="login.js"></script>
+    <script src="cadastro.js"></script>
 
 </body>
 
