@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Persistance - Meus hábitos</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-logo">PR</div>
+            <h2>Persistance</h2>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="home.html" class="menu-item">
+                <span>⌂</span>
+                Início
+            </a>
+
+            <a href="habitos.html" class="menu-item active">
+                <span>✓</span>
+                Meus hábitos
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>▥</span>
+                Estatísticas
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>□</span>
+                Histórico
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>⚙</span>
+                Configurações
+            </a>
+
+        </nav>
+
+        <a href="index.html" class="logout">
+            ← Sair
+        </a>
+
+    </aside>
+
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-top">
+
+            <div>
+
+                <p class="dashboard-date">
+                    Minha rotina
+                </p>
+
+                <h1>
+                    Meus hábitos
+                </h1>
+
+                <p class="dashboard-subtitle">
+                    Organize as pequenas ações que fazem parte do seu dia.
+                </p>
+
+            </div>
+
+            <button
+                class="new-habit-button"
+                id="openHabitForm"
+            >
+                + Novo hábito
+            </button>
+
+        </header>
+
+
+        <!-- FORMULÁRIO -->
+
+        <section
+            class="habit-form-container"
+            id="habitFormContainer"
+        >
+
+            <div class="form-title">
+
+                <div>
+                    <h2>Novo hábito</h2>
+
+                    <p>
+                        Crie um objetivo para acompanhar na sua rotina.
+                    </p>
+                </div>
+
+                <button
+                    class="close-form"
+                    id="closeHabitForm"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="habitForm">
+
+                <div class="habit-form-grid">
+
+                    <div class="habit-input-group">
+
+                        <label for="habitName">
+                            Nome do hábito
+                        </label>
+
+                        <input
+                            type="text"
+                            id="habitName"
+                            placeholder="Ex: Beber 2L de água"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="habit-input-group">
+
+                        <label for="habitCategory">
+                            Categoria
+                        </label>
+
+                        <select id="habitCategory">
+
+                            <option value="Saúde">
+                                Saúde
+                            </option>
+
+                            <option value="Estudos">
+                                Estudos
+                            </option>
+
+                            <option value="Desenvolvimento">
+                                Desenvolvimento
+                            </option>
+
+                            <option value="Sono">
+                                Sono
+                            </option>
+
+                            <option value="Outro">
+                                Outro
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="habit-input-group">
+
+                        <label for="habitFrequency">
+                            Frequência
+                        </label>
+
+                        <select id="habitFrequency">
+
+                            <option value="Todos os dias">
+                                Todos os dias
+                            </option>
+
+                            <option value="Segunda a sexta">
+                                Segunda a sexta
+                            </option>
+
+                            <option value="3x por semana">
+                                3x por semana
+                            </option>
+
+                            <option value="2x por semana">
+                                2x por semana
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-habit-button"
+                >
+                    Criar hábito
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- LISTA -->
+
+        <section class="routine-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>
+                        Sua rotina
+                    </h2>
+
+                    <p id="habitCount">
+                        0 hábitos cadastrados
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div
+                class="habit-list"
+                id="habitList"
+            >
+
+                <!-- Hábitos serão adicionados pelo JavaScript -->
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="habitos.js"></script>
+
+</body>
+
+</html>

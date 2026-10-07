@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Persistance - Início</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-logo">PR</div>
+            <h2>Persistance</h2>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="home.html" class="menu-item active">
+                <span>⌂</span>
+                Início
+            </a>
+
+            <a href="habitos.html" class="menu-item">
+                <span>✓</span>
+                Meus hábitos
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>▥</span>
+                Estatísticas
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>□</span>
+                Histórico
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>⚙</span>
+                Configurações
+            </a>
+
+        </nav>
+
+        <a href="index.html" class="logout">
+            ← Sair
+        </a>
+
+    </aside>
+
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-top">
+
+            <div>
+                <p id="currentDate" class="dashboard-date"></p>
+
+                <h1>
+                    Olá! 👋
+                </h1>
+
+                <p class="dashboard-subtitle">
+                    Vamos cuidar da sua rotina hoje.
+                </p>
+            </div>
+
+            <div class="streak">
+                <span class="streak-number">5</span>
+
+                <div>
+                    <strong>dias</strong>
+                    <small>de sequência 🔥</small>
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- RESUMO -->
+
+        <section class="dashboard-summary">
+
+            <div class="summary-card main-summary">
+
+                <div>
+                    <span>Seu progresso hoje</span>
+
+                    <h2 id="percentage">
+                        0%
+                    </h2>
+                </div>
+
+                <div class="circle-progress">
+                    <span id="circlePercentage">0%</span>
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>Objetivos</span>
+
+                <strong>
+                    <span id="completed">0</span>/<span id="totalHabits">0</span>
+                </strong>
+
+                <small>
+                    concluídos hoje
+                </small>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>Sequência</span>
+
+                <strong>
+                    5 dias
+                </strong>
+
+                <small>
+                    continue assim
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- ROTINA -->
+
+        <section class="routine-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Minha rotina</h2>
+
+                    <p>
+                        Pequenas ações todos os dias.
+                    </p>
+                </div>
+
+                <button
+                    class="new-habit-button"
+                    onclick="window.location.href='habitos.html'"
+                >
+                    + Novo hábito
+                </button>
+
+            </div>
+
+
+            <div class="habit-list" id="habitList">
+
+                <!-- Os hábitos serão carregados pelo home.js -->
+
+            </div>
+
+        </section>
+
+
+        <!-- FRASE -->
+
+        <section class="motivation">
+
+            <div>
+                <span>PARA HOJE</span>
+
+                <h2>
+                    Consistência não é fazer perfeito.
+                    É continuar.
+                </h2>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="home.js"></script>
+
+</body>
+
+</html>

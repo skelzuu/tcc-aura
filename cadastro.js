@@ -1,6 +1,7 @@
 const registerForm = document.getElementById("registerForm");
 
 registerForm.addEventListener("submit", function (event) {
+
     event.preventDefault();
 
     const name = document.getElementById("name").value;
@@ -9,9 +10,14 @@ registerForm.addEventListener("submit", function (event) {
     const confirmPassword = document.getElementById("confirm-password").value;
 
     if (password !== confirmPassword) {
+
         alert("As senhas não são iguais.");
+
         return;
     }
 
     alert(`Conta criada para ${name}!`);
+
+    window.location.href = "index.html";
+
 });
