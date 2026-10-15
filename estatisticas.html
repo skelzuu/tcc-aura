@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persistance - Estatísticas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-page">
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">PR</div>
+            <h2>Persistance</h2>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="home.html" class="menu-item">
+                <span>⌂</span> Início
+            </a>
+
+            <a href="habitos.html" class="menu-item">
+                <span>✓</span> Meus hábitos
+            </a>
+
+            <a href="estatisticas.html" class="menu-item active">
+                <span>▥</span> Estatísticas
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>□</span> Histórico
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>⚙</span> Configurações
+            </a>
+        </nav>
+
+        <a href="index.html" class="logout">← Sair</a>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-top">
+            <div>
+                <p class="dashboard-date">SEU DESEMPENHO</p>
+                <h1>Estatísticas</h1>
+                <p class="dashboard-subtitle">
+                    Acompanhe sua evolução e mantenha a consistência.
+                </p>
+            </div>
+        </header>
+
+        <section class="stats-summary">
+
+            <article class="stats-card">
+                <span>Conclusão de hoje</span>
+                <strong id="todayRate">0%</strong>
+                <small id="todayDetail">0 de 0 hábitos concluídos</small>
+            </article>
+
+            <article class="stats-card">
+                <span>Conclusões na semana</span>
+                <strong id="weekCompleted">0</strong>
+                <small>Hábitos concluídos nos últimos 7 dias</small>
+            </article>
+
+            <article class="stats-card">
+                <span>Melhor hábito</span>
+                <strong id="bestHabit">—</strong>
+                <small id="bestHabitDetail">Ainda sem registros</small>
+            </article>
+
+        </section>
+
+        <section class="stats-panel">
+            <div class="stats-panel-heading">
+                <div>
+                    <h2>Últimos 7 dias</h2>
+                    <p>Veja quantos hábitos você concluiu por dia.</p>
+                </div>
+            </div>
+
+            <div class="weekly-chart" id="weeklyChart"></div>
+        </section>
+
+        <section class="stats-panel">
+            <div class="stats-panel-heading">
+                <div>
+                    <h2>Desempenho por hábito</h2>
+                    <p>Percentual de conclusão de cada hábito na última semana.</p>
+                </div>
+            </div>
+
+            <div id="habitPerformance"></div>
+        </section>
+
+    </main>
+
+    <script src="estatisticas.js"></script>
+</body>
+</html>
