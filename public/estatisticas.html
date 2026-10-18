@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estatísticas | Persistance</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app">
+
+    <aside id="menu"></aside>
+
+    <main class="palco">
+
+        <header class="topo">
+            <div>
+                <h1>Estatísticas</h1>
+                <p>Acompanhe sua evolução e mantenha a consistência.</p>
+            </div>
+
+            <div class="alternador" role="group" aria-label="Período">
+                <button type="button" data-periodo="7" aria-pressed="true">7 dias</button>
+                <button type="button" data-periodo="30" aria-pressed="false">30 dias</button>
+            </div>
+        </header>
+
+        <section class="placar-stats" aria-label="Resumo">
+            <div>
+                <span>Hoje</span>
+                <strong id="taxaHoje">0%</strong>
+                <small id="detalheHoje"></small>
+            </div>
+
+            <div>
+                <span id="rotuloPeriodo">Conclusões em 7 dias</span>
+                <strong id="totalPeriodo">0</strong>
+                <small>Hábitos marcados no período</small>
+            </div>
+
+            <div>
+                <span>Melhor hábito</span>
+                <strong id="melhorHabito">—</strong>
+                <small id="detalheMelhor">Ainda sem registros</small>
+            </div>
+
+            <div>
+                <span>Sequência atual</span>
+                <strong id="sequenciaAtual">0 dias</strong>
+                <small id="recorde"></small>
+            </div>
+        </section>
+
+        <section class="bloco">
+            <div class="secao-titulo">
+                <div>
+                    <h2>Conclusões por dia</h2>
+                    <p>Quantos hábitos você marcou em cada dia.</p>
+                </div>
+            </div>
+
+            <div class="grafico" id="grafico"></div>
+        </section>
+
+        <section class="bloco">
+            <div class="secao-titulo">
+                <div>
+                    <h2>Desempenho por hábito</h2>
+                    <p id="subtituloDesempenho"></p>
+                </div>
+            </div>
+
+            <ul class="desempenho" id="desempenho"></ul>
+        </section>
+
+        <section class="bloco">
+            <div class="secao-titulo">
+                <div>
+                    <h2>Conquistas</h2>
+                    <p id="resumoConquistas"></p>
+                </div>
+            </div>
+
+            <ul class="conquistas" id="conquistas"></ul>
+        </section>
+
+    </main>
+
+    <script src="js/app.js"></script>
+    <script src="js/estatisticas.js"></script>
+</body>
+</html>

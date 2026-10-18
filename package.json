@@ -1,0 +1,19 @@
+{
+  "name": "persistance",
+  "version": "1.0.0",
+  "description": "Sistema de gerenciamento de hábitos e rotina (TCC - Análise e Desenvolvimento de Sistemas)",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.0"
+  }
+}

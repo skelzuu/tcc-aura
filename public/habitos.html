@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hábitos | Persistance</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app">
+
+    <aside id="menu"></aside>
+
+    <main class="palco">
+
+        <header class="topo">
+            <div>
+                <h1>Meus hábitos</h1>
+                <p>Organize as pequenas ações que fazem parte do seu dia.</p>
+            </div>
+
+            <button type="button" class="btn" id="botaoNovo">Novo hábito</button>
+        </header>
+
+        <section class="painel-form" id="painelForm" hidden>
+            <h2 id="tituloForm">Novo hábito</h2>
+
+            <form id="formHabito">
+                <div class="grade-form">
+                    <div class="campo">
+                        <label for="nome">Nome do hábito</label>
+                        <input type="text" id="nome" maxlength="80" placeholder="Ex: Beber 2L de água" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="categoria">Categoria</label>
+                        <select id="categoria">
+                            <option>Saúde</option>
+                            <option>Estudos</option>
+                            <option>Desenvolvimento</option>
+                            <option>Sono</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="frequencia">Frequência</label>
+                        <select id="frequencia">
+                            <option>Todos os dias</option>
+                            <option>Segunda a sexta</option>
+                            <option>3x por semana</option>
+                            <option>2x por semana</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-acoes">
+                    <button type="submit" class="btn" id="botaoSalvar">Criar hábito</button>
+                    <button type="button" class="btn btn-claro" id="botaoCancelar">Cancelar</button>
+                </div>
+            </form>
+        </section>
+
+        <section>
+            <div class="secao-titulo">
+                <div>
+                    <h2>Sua rotina</h2>
+                    <p id="contagem"></p>
+                </div>
+            </div>
+
+            <ul class="lista" id="lista"></ul>
+        </section>
+
+    </main>
+
+    <script src="js/app.js"></script>
+    <script src="js/habitos.js"></script>
+</body>
+</html>

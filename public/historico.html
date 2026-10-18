@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico | Persistance</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app">
+
+    <aside id="menu"></aside>
+
+    <main class="palco">
+
+        <header class="topo">
+            <div>
+                <h1>Histórico</h1>
+                <p>Veja como foi cada dia e corrija o que ficou sem marcar.</p>
+            </div>
+        </header>
+
+        <div class="hist">
+
+            <section>
+                <div class="cal-topo">
+                    <h2 id="mesAtual"></h2>
+
+                    <div class="cal-nav">
+                        <button type="button" class="btn btn-claro btn-pequeno" id="mesAnterior" aria-label="Mês anterior">Anterior</button>
+                        <button type="button" class="btn btn-claro btn-pequeno" id="mesProximo" aria-label="Próximo mês">Próximo</button>
+                    </div>
+                </div>
+
+                <div class="cal" id="calendario"></div>
+
+                <div class="legenda" aria-hidden="true">
+                    Menos
+                    <i data-n="0"></i>
+                    <i data-n="1"></i>
+                    <i data-n="2"></i>
+                    <i data-n="3"></i>
+                    <i data-n="4"></i>
+                    Mais
+                </div>
+            </section>
+
+            <section class="detalhe">
+                <h2 id="tituloDia"></h2>
+                <p id="resumoDia"></p>
+                <ul class="lista" id="listaDia"></ul>
+            </section>
+
+        </div>
+
+    </main>
+
+    <script src="js/app.js"></script>
+    <script src="js/historico.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início | Persistance</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app">
+
+    <aside id="menu"></aside>
+
+    <main class="palco">
+
+        <header class="topo">
+            <div>
+                <p class="data-hoje" id="dataHoje"></p>
+                <h1 id="saudacao">Olá</h1>
+            </div>
+        </header>
+
+        <section class="hoje" aria-label="Resumo de hoje">
+            <div>
+                <div class="hoje-placar" id="placar">0<span>/0</span></div>
+                <p class="hoje-texto" id="placarTexto"></p>
+            </div>
+
+            <div>
+                <div class="fita" id="fita" aria-label="Últimos 7 dias"></div>
+                <p class="sequencia" id="sequencia"></p>
+
+                <div class="nivel">
+                    <div class="nivel-topo">
+                        <strong id="nivelNumero">Nível 1</strong>
+                        <span id="nivelXp">0 XP</span>
+                    </div>
+                    <div class="nivel-trilho"><i id="nivelBarra"></i></div>
+                    <p id="nivelFalta"></p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="secao-titulo">
+                <div>
+                    <h2>Hábitos de hoje</h2>
+                    <p id="legendaLista"></p>
+                </div>
+                <a class="btn btn-claro" href="habitos.html">Gerenciar hábitos</a>
+            </div>
+
+            <ul class="lista" id="lista"></ul>
+        </section>
+
+        <p class="lema">Consistência não é fazer perfeito. É continuar.</p>
+
+    </main>
+
+    <script src="js/app.js"></script>
+    <script src="js/home.js"></script>
+</body>
+</html>
