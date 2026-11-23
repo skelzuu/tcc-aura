@@ -18,13 +18,13 @@ formCadastro.addEventListener("submit", async function (evento) {
     const nome = document.getElementById("nome").value.trim();
     const email = document.getElementById("email").value.trim();
     const senha = document.getElementById("senha").value;
-    const confirmar = document.getElementById("confirmar").value;
+    const confirmacao = document.getElementById("confirmar").value;
 
     if (senha.length < 8) {
         return mostrarErro("A senha precisa ter pelo menos 8 caracteres.");
     }
 
-    if (senha !== confirmar) {
+    if (senha !== confirmacao) {
         return mostrarErro("As senhas não são iguais.");
     }
 

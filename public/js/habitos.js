@@ -164,6 +164,7 @@
         });
     }
 
+    animarEntrada(elLista);
     desenhar();
 
 })();

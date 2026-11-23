@@ -6,6 +6,7 @@
     const agora = hoje();
     const chaveHoje = chaveData(agora);
 
+    const elHero = document.querySelector(".hoje");
     const elPlacar = document.getElementById("placar");
     const elPlacarTexto = document.getElementById("placarTexto");
     const elSequencia = document.getElementById("sequencia");
@@ -33,12 +34,15 @@
     let habitos;
     let mapa;
 
+    // o bloco azul fica sem conteúdo até os dados chegarem
+    elHero.classList.add("carregando");
     mostrarCarregando(elLista, 3);
 
     try {
         habitos = await api("/habitos");
         mapa = await buscarConclusoes(menorInicio(habitos), chaveHoje);
     } catch (erro) {
+        elHero.classList.remove("carregando");
         elLegenda.textContent = "";
         mostrarErroCarga(elLista, erro.message);
         return;
@@ -76,9 +80,9 @@
     function pintarFita() {
         pilulas.forEach(function (item) {
             const r = resumoDoDia(habitos, mapa, item.dia);
-            const pct = r.previstos ? (r.feitos / r.previstos) * 100 : 0;
+            const fracao = r.previstos ? r.feitos / r.previstos : 0;
 
-            item.nivel.style.height = pct + "%";
+            item.nivel.style.transform = deslocamento("y", fracao);
             item.coluna.title = r.previstos ? `${r.feitos} de ${r.previstos} hábitos` : "Nada previsto";
         });
     }
@@ -86,11 +90,11 @@
 
     /* ---------- resumo ---------- */
 
-    let fitaAnimada = false;
+    let animou = false;
     let xpAtual = null;
 
     function pintarNivel() {
-        elNivelBarra.style.width = xpAtual.pct + "%";
+        elNivelBarra.style.transform = deslocamento("x", xpAtual.pct / 100);
     }
 
     function atualizarResumo() {
@@ -121,7 +125,7 @@
         elNivelXp.textContent = `${xpAtual.total} XP`;
         elNivelFalta.textContent = `Faltam ${xpAtual.faltam} XP para o nível ${xpAtual.nivel + 1}.`;
 
-        if (fitaAnimada) {
+        if (animou) {
             pintarFita();
             pintarNivel();
         }
@@ -203,13 +207,16 @@
         });
     }
 
+    animarEntrada(elLista);
     desenharLista();
     atualizarResumo();
 
-    // a fita sobe quando a página termina de carregar
+    elHero.classList.remove("carregando");
+
+    // as barras sobem depois do primeiro desenho da tela
     requestAnimationFrame(function () {
         requestAnimationFrame(function () {
-            fitaAnimada = true;
+            animou = true;
             pintarFita();
             pintarNivel();
         });

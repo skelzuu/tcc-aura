@@ -21,6 +21,13 @@ function gerarToken(id) {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 }
 
+// confere a senha de quem já está logado (usada ao trocar a senha e ao excluir a conta)
+async function senhaConfere(usuarioId, senha) {
+  const [linhas] = await db.execute("SELECT senha_hash FROM usuarios WHERE id = ?", [usuarioId]);
+  if (!linhas[0]) return false;
+  return bcrypt.compare(String(senha ?? ""), linhas[0].senha_hash);
+}
+
 router.post("/cadastro", limitador, async (req, res) => {
   const { nome, email, senha } = req.body ?? {};
   const nomeLimpo = String(nome ?? "").trim();
@@ -84,6 +91,51 @@ router.get("/me", autenticar, async (req, res) => {
   );
   if (!linhas[0]) return res.status(401).json({ erro: "Usuário não encontrado." });
   res.json(linhas[0]);
+});
+
+// altera o nome exibido
+router.put("/perfil", autenticar, async (req, res) => {
+  const nome = String(req.body?.nome ?? "").trim();
+
+  if (nome.length < 2 || nome.length > 80) {
+    return res.status(400).json({ erro: "Informe um nome com 2 a 80 caracteres." });
+  }
+
+  await db.execute("UPDATE usuarios SET nome = ? WHERE id = ?", [nome, req.usuarioId]);
+
+  const [linhas] = await db.execute(
+    "SELECT id, nome, email FROM usuarios WHERE id = ?",
+    [req.usuarioId]
+  );
+  res.json(linhas[0]);
+});
+
+// troca a senha, exigindo a senha atual.
+// erros de senha usam 400 (e não 401) para a tela não entender como sessão expirada.
+router.put("/senha", autenticar, limitador, async (req, res) => {
+  const { senha_atual, nova_senha } = req.body ?? {};
+  const nova = String(nova_senha ?? "");
+
+  if (!(await senhaConfere(req.usuarioId, senha_atual))) {
+    return res.status(400).json({ erro: "A senha atual está incorreta." });
+  }
+  if (nova.length < 8 || nova.length > 72) {
+    return res.status(400).json({ erro: "A nova senha deve ter de 8 a 72 caracteres." });
+  }
+
+  const hash = await bcrypt.hash(nova, 10);
+  await db.execute("UPDATE usuarios SET senha_hash = ? WHERE id = ?", [hash, req.usuarioId]);
+  res.json({ ok: true });
+});
+
+// exclui a conta; hábitos e conclusões saem junto (ON DELETE CASCADE)
+router.delete("/conta", autenticar, limitador, async (req, res) => {
+  if (!(await senhaConfere(req.usuarioId, req.body?.senha))) {
+    return res.status(400).json({ erro: "A senha está incorreta." });
+  }
+
+  await db.execute("DELETE FROM usuarios WHERE id = ?", [req.usuarioId]);
+  res.status(204).end();
 });
 
 module.exports = router;

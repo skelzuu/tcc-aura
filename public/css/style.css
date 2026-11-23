@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
-
 /* =========================================
    Persistance
    Tema escuro em azul-noite, cores chapadas.
@@ -42,7 +40,9 @@
     --r-m: 20px;
     --r-l: 28px;
 
-    --suave: 0.22s cubic-bezier(0.3, 0.7, 0.3, 1);
+    /* curva única para todo o movimento: sai rápido e assenta devagar */
+    --fluido: cubic-bezier(0.22, 1, 0.36, 1);
+    --suave: 0.25s var(--fluido);
 }
 
 /* =========================================
@@ -54,6 +54,8 @@
     margin: 0;
     padding: 0;
 }
+
+html { scroll-behavior: smooth; }
 
 body {
     min-height: 100vh;
@@ -83,7 +85,9 @@ h1, h2, h3 {
 
 /* =========================================
    Transição entre páginas
-   O menu fica parado e só o conteúdo troca.
+   O menu fica parado e só o conteúdo troca,
+   com um fade curto. O movimento fica por
+   conta dos itens da lista.
    ========================================= */
 
 @view-transition { navigation: auto; }
@@ -93,20 +97,35 @@ h1, h2, h3 {
 
 ::view-transition-group(menu) { animation-duration: 0s; }
 
-::view-transition-old(pagina) { animation: pagina-sai 0.16s ease both; }
-::view-transition-new(pagina) { animation: pagina-entra 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+::view-transition-old(pagina) { animation: pagina-sai 0.14s ease both; }
+::view-transition-new(pagina) { animation: pagina-entra 0.26s var(--fluido) both; }
 
 @keyframes pagina-sai {
-    to { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 0; }
 }
 
 @keyframes pagina-entra {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; }
 }
 
 /* navegadores sem esse recurso ganham só uma entrada suave */
 @supports not (view-transition-name: none) {
     .palco { animation: pagina-entra 0.3s ease-out both; }
+}
+
+/* o destaque do menu desliza até o item da nova página */
+.destaque {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: rgba(58, 100, 244, 0.24);
+    view-transition-name: destaque;
+}
+
+::view-transition-group(destaque) {
+    animation-duration: 0.4s;
+    animation-timing-function: var(--fluido);
 }
 
 /* =========================================
@@ -164,7 +183,7 @@ h1, h2, h3 {
 }
 
 .btn:hover { background: var(--blue-hover); transform: translateY(-2px); }
-.btn:active { transform: translateY(0); }
+.btn:active { transform: scale(0.97); transition-duration: 0.08s; }
 .btn:disabled { opacity: 0.5; pointer-events: none; }
 
 .btn-cheio { width: 100%; }
@@ -306,9 +325,9 @@ body.auth {
     content: "";
     position: absolute;
     top: -10%;
-    right: 13%;
+    right: 12%;
     width: 14px;
-    height: 58%;
+    height: 36%;
     border-radius: 999px;
     background: var(--amber);
     transform: rotate(24deg);
@@ -418,6 +437,9 @@ body.app {
 .menu { display: flex; flex-direction: column; gap: 4px; }
 
 .menu a {
+    position: relative;
+    isolation: isolate;
+
     display: flex;
     align-items: center;
     gap: 14px;
@@ -436,7 +458,7 @@ body.app {
 .menu a:hover { background: var(--surface-2); color: var(--text); }
 
 .menu a[aria-current="page"] {
-    background: rgba(58, 100, 244, 0.22);
+    background: transparent;
     color: #fff;
 }
 
@@ -526,6 +548,9 @@ body.app {
 
 /* =========================================
    Início: resumo do dia
+   Os preenchimentos usam transform (e não
+   width/height), que o navegador anima
+   sem recalcular o layout.
    ========================================= */
 
 .hoje {
@@ -541,6 +566,10 @@ body.app {
     background: var(--blue);
     color: #fff;
 }
+
+/* o conteúdo só aparece quando os dados chegam, sem piscar "0/0" */
+.hoje > * { transition: opacity 0.5s var(--fluido); }
+.hoje.carregando > * { opacity: 0; }
 
 .hoje-placar {
     font-weight: 700;
@@ -582,9 +611,6 @@ body.app {
     max-width: 44px;
     height: 108px;
 
-    display: flex;
-    align-items: flex-end;
-
     border-radius: 999px;
     background: rgba(8, 16, 50, 0.32);
     overflow: hidden;
@@ -593,10 +619,12 @@ body.app {
 .pilula i {
     display: block;
     width: 100%;
-    height: 0;
-    border-radius: 999px;
+    height: 100%;
+    border-radius: 22px 22px 0 0;
     background: var(--amber);
-    transition: height 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translateY(100%);
+    transition: transform 0.9s var(--fluido);
+    will-change: transform;
 }
 
 .dia-fita.agora { color: #fff; }
@@ -648,11 +676,13 @@ body.app {
 
 .nivel-trilho i {
     display: block;
-    width: 0;
+    width: 100%;
     height: 100%;
-    border-radius: 999px;
+    border-radius: 0 999px 999px 0;
     background: var(--amber);
-    transition: width 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translateX(-100%);
+    transition: transform 0.9s var(--fluido);
+    will-change: transform;
 }
 
 .nivel p { font-size: 0.86rem; color: rgba(255, 255, 255, 0.85); }
@@ -701,7 +731,7 @@ body.app {
     border-radius: 50%;
     background: transparent;
 
-    transition: background var(--suave), border-color var(--suave), transform var(--suave);
+    transition: background var(--suave), border-color var(--suave), transform 0.45s cubic-bezier(0.3, 1.7, 0.5, 1);
 }
 
 .habito.clicavel:hover .tique { border-color: var(--blue-soft); }
@@ -716,13 +746,13 @@ body.app {
     stroke-linejoin: round;
     stroke-dasharray: 24;
     stroke-dashoffset: 24;
-    transition: stroke-dashoffset 0.3s ease 0.05s;
+    transition: stroke-dashoffset 0.35s var(--fluido) 0.05s;
 }
 
 .habito.feito .tique {
     background: var(--mint);
     border-color: var(--mint);
-    transform: scale(1.04);
+    transform: scale(1.06);
 }
 
 .habito.feito .tique svg { stroke-dashoffset: 0; }
@@ -925,8 +955,6 @@ body.app {
 .faixa {
     flex: 1;
     width: 100%;
-    display: flex;
-    align-items: flex-end;
 
     border-radius: 14px;
     background: var(--surface-2);
@@ -935,9 +963,12 @@ body.app {
 
 .barra {
     width: 100%;
-    border-radius: 12px;
+    height: 100%;
+    border-radius: 12px 12px 0 0;
     background: var(--blue-bar);
-    transition: height 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translateY(100%);
+    transition: transform 0.8s var(--fluido);
+    will-change: transform;
 }
 
 .coluna.agora .barra { background: var(--amber); }
@@ -1002,10 +1033,13 @@ body.app {
 
 .trilho i {
     display: block;
+    width: 100%;
     height: 100%;
-    border-radius: 999px;
+    border-radius: 0 999px 999px 0;
     background: var(--blue-bar);
-    transition: width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform: translateX(-100%);
+    transition: transform 0.8s var(--fluido);
+    will-change: transform;
 }
 
 /* =========================================
@@ -1162,6 +1196,27 @@ body.app {
 .detalhe .habito { padding: 14px 8px; }
 
 /* =========================================
+   Entrada em sequência das listas
+   ========================================= */
+
+.lista.entrada > .habito,
+.desempenho.entrada > li {
+    animation: item-entra 0.5s var(--fluido) both;
+}
+
+.entrada > :nth-child(1) { animation-delay: 0.03s; }
+.entrada > :nth-child(2) { animation-delay: 0.07s; }
+.entrada > :nth-child(3) { animation-delay: 0.11s; }
+.entrada > :nth-child(4) { animation-delay: 0.15s; }
+.entrada > :nth-child(5) { animation-delay: 0.19s; }
+.entrada > :nth-child(6) { animation-delay: 0.23s; }
+.entrada > :nth-child(n + 7) { animation-delay: 0.27s; }
+
+@keyframes item-entra {
+    from { opacity: 0; transform: translateY(10px); }
+}
+
+/* =========================================
    Carregando, erro e avisos
    ========================================= */
 
@@ -1229,9 +1284,20 @@ body.app {
     color: var(--bg);
     font-weight: 700;
     box-shadow: 0 18px 36px -14px rgba(0, 0, 0, 0.6);
+
+    animation: toast-entra 0.35s var(--fluido) both;
 }
 
+.toast.saindo { animation: toast-sai 0.3s ease forwards; }
 .toast.erro { background: var(--danger); color: #3a0611; }
+
+@keyframes toast-entra {
+    from { opacity: 0; transform: translate(-50%, 14px); }
+}
+
+@keyframes toast-sai {
+    to { opacity: 0; transform: translate(-50%, 8px); }
+}
 
 .xp-pop {
     position: absolute;
@@ -1249,7 +1315,7 @@ body.app {
     font-variant-numeric: tabular-nums;
 
     pointer-events: none;
-    animation: xp-sobe 1s ease-out forwards;
+    animation: xp-sobe 1s var(--fluido) forwards;
 }
 
 @keyframes xp-sobe {
@@ -1272,7 +1338,17 @@ dialog {
     box-shadow: inset 0 0 0 1px var(--line-2), 0 40px 80px -24px rgba(0, 0, 0, 0.7);
 }
 
+dialog[open] { animation: dialog-entra 0.3s var(--fluido); }
+dialog[open]::backdrop { animation: fundo-entra 0.3s ease; }
 dialog::backdrop { background: rgba(4, 8, 20, 0.65); }
+
+@keyframes dialog-entra {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+}
+
+@keyframes fundo-entra {
+    from { opacity: 0; }
+}
 
 dialog h3 { margin-bottom: 10px; font-size: 1.4rem; }
 dialog p { color: var(--muted); overflow-wrap: anywhere; }
@@ -1302,7 +1378,7 @@ dialog p { color: var(--muted); overflow-wrap: anywhere; }
 
     .auth-arte { min-height: 0; padding: 28px 24px 34px; gap: 22px; }
     .auth-arte h2 { font-size: 2.6rem; }
-    .auth-arte::after { right: 8%; height: 90%; }
+    .auth-arte::after { right: 8%; height: 34%; }
     .heat { display: none; }
 
     .auth-form { align-items: flex-start; padding: 8px 0 24px; }
@@ -1337,7 +1413,7 @@ dialog p { color: var(--muted); overflow-wrap: anywhere; }
         padding: 9px 2px 8px;
         border-radius: 18px;
 
-        font-size: 0.68rem;
+        font-size: 0.62rem;
         text-align: center;
     }
 
@@ -1371,6 +1447,8 @@ dialog p { color: var(--muted); overflow-wrap: anywhere; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+
     *, *::before, *::after {
         transition: none !important;
         animation: none !important;
@@ -1380,4 +1458,21 @@ dialog p { color: var(--muted); overflow-wrap: anywhere; }
     ::view-transition-old(*),
     ::view-transition-new(*) { animation: none !important; }
 }
- 
+
+/* =========================================
+   Configurações
+   ========================================= */
+
+.conf { max-width: 720px; }
+.conf > p { margin-bottom: 18px; color: var(--muted); }
+
+.conf-grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 0 16px;
+}
+
+.conf .campo input:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.bloco.conf-perigo { box-shadow: inset 0 0 0 1px rgba(255, 122, 143, 0.4); }
+.bloco.conf-perigo h2 { color: var(--danger); }

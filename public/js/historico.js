@@ -72,9 +72,9 @@
             elCalendario.appendChild(cabecalho);
         });
 
-        const deslocamento = new Date(ano, mes, 1).getDay();
+        const deslocamentoMes = new Date(ano, mes, 1).getDay();
 
-        for (let i = 0; i < deslocamento; i++) {
+        for (let i = 0; i < deslocamentoMes; i++) {
             const vazio = document.createElement("div");
             vazio.className = "cal-fora";
             elCalendario.appendChild(vazio);

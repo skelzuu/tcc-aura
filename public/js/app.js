@@ -28,6 +28,12 @@ function getUsuario() {
     }
 }
 
+// guarda o usuário atualizado no mesmo lugar em que a sessão já estava
+function atualizarUsuarioSalvo(usuario) {
+    const storage = localStorage.getItem(CHAVE_TOKEN) ? localStorage : sessionStorage;
+    storage.setItem(CHAVE_USUARIO, JSON.stringify(usuario));
+}
+
 function limparSessao() {
     [localStorage, sessionStorage].forEach(function (storage) {
         storage.removeItem(CHAVE_TOKEN);
@@ -88,7 +94,9 @@ async function api(rota, opcoes = {}) {
     }
 
     if (!resposta.ok) {
-        throw new Error(dados.erro || "Algo deu errado. Tente de novo.");
+        throw new Error(
+            dados.erro || `O servidor respondeu com erro ${resposta.status}. Confira se abriu o site por http://localhost:3000.`
+        );
     }
 
     return dados;
@@ -200,7 +208,6 @@ function calcularSequencias(habitos, mapa) {
 }
 
 
-
 /* ---------- XP e nível ---------- */
 
 // o XP não é guardado: é calculado em cima das conclusões do histórico
@@ -294,6 +301,35 @@ function listarConquistas(habitos, mapa) {
 }
 
 
+/* ---------- movimento ---------- */
+
+// as linhas entram em sequência só na primeira vez que a lista aparece
+function animarEntrada(elemento) {
+    elemento.classList.add("entrada");
+
+    setTimeout(function () {
+        elemento.classList.remove("entrada");
+    }, 1000);
+}
+
+// preenche uma barra deslizando-a para dentro do trilho.
+// transform é animado direto pela placa de vídeo, ao contrário de width/height.
+function deslocamento(eixo, fracao) {
+    const falta = (1 - fracao) * 100;
+    return eixo === "x" ? `translateX(${-falta}%)` : `translateY(${falta}%)`;
+}
+
+function preencher(elemento, eixo, fracao) {
+    elemento.style.transform = deslocamento(eixo, 0);
+
+    requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+            elemento.style.transform = deslocamento(eixo, fracao);
+        });
+    });
+}
+
+
 /* ---------- carregando e erro ---------- */
 
 function criarBloco(container, classe) {
@@ -337,6 +373,7 @@ function mostrarErroCarga(container, mensagem) {
     bloco.append(titulo, texto, botao);
     container.appendChild(bloco);
 }
+
 
 /* ---------- pedaços de interface ---------- */
 
@@ -409,12 +446,15 @@ function montarMenu(ativa) {
         ["inicio", "home.html", "Início", `<path d="M3 11l9-8 9 8M5 10v10h14V10"/>`],
         ["habitos", "habitos.html", "Hábitos", `<path d="M9 6h11M9 12h11M9 18h11M3.5 6l1.2 1.2L6.8 5M3.5 12l1.2 1.2L6.8 11M3.5 18l1.2 1.2L6.8 17"/>`],
         ["estatisticas", "estatisticas.html", "Estatísticas", `<path d="M5 20V10M12 20V4M19 20v-7"/>`],
-        ["historico", "historico.html", "Histórico", `<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>`]
+        ["historico", "historico.html", "Histórico", `<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>`],
+        ["configuracoes", "configuracoes.html", "Configurações", `<path d="M4 6h8M16 6h4M4 12h2M10 12h10M4 18h10M18 18h2"/><circle cx="14" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="18" r="2"/>`]
     ];
 
     const links = itens.map(function (item) {
         const atual = item[0] === ativa ? ' aria-current="page"' : "";
-        return `<a href="${item[1]}"${atual}><svg viewBox="0 0 24 24" aria-hidden="true">${item[3]}</svg>${item[2]}</a>`;
+        const destaque = item[0] === ativa ? '<span class="destaque"></span>' : "";
+
+        return `<a href="${item[1]}"${atual}>${destaque}<svg viewBox="0 0 24 24" aria-hidden="true">${item[3]}</svg>${item[2]}</a>`;
     }).join("");
 
     const menu = document.getElementById("menu");
@@ -448,6 +488,10 @@ function toast(mensagem, tipo) {
     aviso.textContent = mensagem;
     aviso.style.bottom = (28 + document.querySelectorAll(".toast").length * 58) + "px";
     document.body.appendChild(aviso);
+
+    setTimeout(function () {
+        aviso.classList.add("saindo");
+    }, 2900);
 
     setTimeout(function () {
         aviso.remove();

@@ -93,7 +93,6 @@
 
             const barra = document.createElement("div");
             barra.className = "barra";
-            barra.style.height = `${(contagens[i] / maximo) * 100}%`;
             barra.title = `${contagens[i]} ${contagens[i] === 1 ? "conclusão" : "conclusões"}`;
 
             faixa.appendChild(barra);
@@ -109,6 +108,8 @@
 
             coluna.append(valor, faixa, rotulo);
             elGrafico.appendChild(coluna);
+
+            preencher(barra, "y", contagens[i] / maximo);
         });
     }
 
@@ -179,11 +180,12 @@
             trilho.className = "trilho";
 
             const preenchido = document.createElement("i");
-            preenchido.style.width = `${r.taxa}%`;
             trilho.appendChild(preenchido);
 
             item.append(texto, taxa, trilho);
             elDesempenho.appendChild(item);
+
+            preencher(preenchido, "x", r.taxa / 100);
         });
 
         const melhor = resultados[0];
@@ -223,6 +225,9 @@
         });
     });
 
+
+    /* ---------- conquistas ---------- */
+
     function desenharConquistas() {
         const lista = listarConquistas(habitos, mapa);
         const feitas = lista.filter(function (c) { return c.feita; }).length;
@@ -248,19 +253,20 @@
                 trilho.className = "trilho";
 
                 const barra = document.createElement("i");
-                barra.style.width = `${(c.atual / c.meta) * 100}%`;
                 trilho.appendChild(barra);
 
                 const progresso = document.createElement("small");
                 progresso.textContent = `${c.atual} de ${c.meta}`;
 
                 item.append(trilho, progresso);
+                preencher(barra, "x", c.atual / c.meta);
             }
 
             elLista.appendChild(item);
         });
     }
 
+    animarEntrada(elDesempenho);
     desenharTudo();
     desenharConquistas();
 
